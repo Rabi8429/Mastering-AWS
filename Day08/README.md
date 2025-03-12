@@ -37,7 +37,7 @@ To set up a Transit Gateway:
 7. **Testing and Validation:**
    - Test connectivity between resources in different networks to ensure proper routing through the Transit Gateway.
    - 
- ## Create a Peering Connection Between Two regins TGWs 
+ 8. **Create a Peering Connection Between Two regins TGWs:**
 
 - **Simplified Network Architecture:** Transit Gateways simplify network connectivity by providing a centralized hub for routing traffic.
 - **Scalability:** They support the connection of thousands of VPCs and on-premises networks, allowing for scalable network expansion.

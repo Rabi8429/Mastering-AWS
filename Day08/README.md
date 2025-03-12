@@ -36,39 +36,8 @@ To set up a Transit Gateway:
 
 7. **Testing and Validation:**
    - Test connectivity between resources in different networks to ensure proper routing through the Transit Gateway.
-## Step 1: 
-## Step 1: Create a Transit Gateway in Region A
-1.- **Go to AWS Console** → **Navigate to VPC** → **Select Transit Gateways**
-2.- **Click Create Transit Gateway**
-Configure:
-# Name: TGW-RegionA
-Amazon ASN: Choose or enter an Autonomous System Number (ASN) (e.g., 64512)
-Enable DNS Support, VPN ECMP, & Default Route Table
-- **Click Create Transit GatewayStep 1: Create a Transit Gateway in Region A
-- **Go to AWS Console → Navigate to VPC → Select Transit Gateways
--** Click Create Transit Gateway
-Configure:
-Name: TGW-RegionA
-# Amazon ASN: Choose or enter an Autonomous System Number (ASN) (e.g., 64512)
-# Enable DNS Support, VPN ECMP, & Default Route Table
-Click Create Transit Gateway
-
-## Step 2: Create a Transit Gateway in Region B
-
-## Step 3: Create a Peering Connection Between TGWs
-
-
-- **Go to VPC Console → Transit Gateway Peering Attachments**
-- **Click Create Peering Attachment**
-- **Select:**
-# Requester Transit Gateway: TGW-RegionA
-# Peer AWS Account ID: Same or different AWS account
-# Peer Region: Region B
-# Peer Transit Gateway ID: TGW-RegionB
-# Click Create Peering Attachment
-
-
-## Benefits of Using a Transit Gateway
+   - 
+ ##Create a Peering Connection Between Two regins TGWs
 
 - **Simplified Network Architecture:** Transit Gateways simplify network connectivity by providing a centralized hub for routing traffic.
 - **Scalability:** They support the connection of thousands of VPCs and on-premises networks, allowing for scalable network expansion.

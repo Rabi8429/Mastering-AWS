@@ -1,0 +1,99 @@
+# 🌍 Cross-Region AWS Transit Gateway Setup
+
+## 🚀 Overview
+AWS **Transit Gateway (TGW)** allows you to connect multiple **VPCs, AWS accounts, VPNs, and Direct Connect gateways** within a **single region**. However, for **multi-region** networking, AWS provides **Transit Gateway Peering Attachments**, which allow private, high-speed communication across AWS **Regions**.
+
+This guide explains how to **set up a Cross-Region AWS Transit Gateway**.
+
+---
+
+## 🏗 Architecture
+
+### **Key Components**
+- **Transit Gateway (TGW)**: A networking hub to connect multiple VPCs
+- **Transit Gateway Peering**: Enables cross-region connectivity between TGWs
+- **Route Tables**: Used to define traffic flow between VPCs
+
+### **Diagram**
+```
++-------------+      +-----------------+      +-------------+
+|  VPC-A      |      |   AWS Backbone  |      |  VPC-B      |
+|  Region A   | <--> | Transit Gateway | <--> |  Region B   |
+|  10.0.1.0/24|      |  Peering Link   |      | 10.0.2.0/24 |
++-------------+      +-----------------+      +-------------+
+```
+
+---
+
+## 📌 Prerequisites
+- **Two AWS Regions** (e.g., `us-east-1` & `us-west-2`)
+- **Two AWS VPCs** (one in each region)
+- **IAM permissions** to manage Transit Gateways & VPC attachments
+- **BGP ASN numbers** (needed for VPN integration)
+
+---
+
+## 🔧 Step-by-Step Setup
+
+### **Step 1: Create a Transit Gateway in Region A**
+1. **Go to AWS Console** → **VPC** → **Transit Gateways**
+2. Click **Create Transit Gateway**
+3. Configure:
+   - **Name:** `TGW-RegionA`
+   - **Amazon ASN:** `64512`
+   - **Enable DNS Support, VPN ECMP & Default Route Table**
+4. Click **Create Transit Gateway**
+
+### **Step 2: Create a Transit Gateway in Region B**
+Repeat **Step 1** in **Region B**, using a different ASN (`64513`).
+
+### **Step 3: Create a Peering Connection**
+1. **Go to AWS Console** → **VPC** → **Transit Gateway Peering Attachments**
+2. Click **Create Peering Attachment**
+3. Select:
+   - **Requester Transit Gateway:** `TGW-RegionA`
+   - **Peer AWS Account ID:** Same or different AWS account
+   - **Peer Region:** `us-west-2`
+   - **Peer Transit Gateway ID:** `TGW-RegionB`
+4. Click **Create Peering Attachment**
+
+### **Step 4: Accept Peering in Region B**
+1. Go to **Transit Gateway Peering Attachments** in **Region B**
+2. Select the **pending request** and click **Accept**
+3. Wait for the **Status: Available**
+
+### **Step 5: Update TGW Route Tables**
+- **Region A:** Add a route for **Region B’s VPC CIDR**, pointing to **TGW Peering Attachment**.
+- **Region B:** Add a route for **Region A’s VPC CIDR**, pointing to **TGW Peering Attachment**.
+
+### **Step 6: Attach VPCs to Transit Gateways**
+1. **Go to VPC Console** → **Transit Gateway Attachments**
+2. **Attach each VPC** in its respective region to its local **TGW**
+3. Update **VPC Route Tables** to **point traffic to TGW**
+
+---
+
+## ✅ Validation
+- **Deploy EC2 instances** in both **VPC-A** and **VPC-B**
+- **Ping across regions** to confirm connectivity
+- Use **VPC Flow Logs** or **AWS Reachability Analyzer** for debugging
+
+---
+
+## 🎯 Benefits of Cross-Region Transit Gateway
+✔ **High Performance:** Uses **AWS backbone** instead of the public internet  
+✔ **Simplified Networking:** One TGW manages multiple VPCs  
+✔ **Cost-Efficient:** Reduces need for multiple VPN tunnels  
+✔ **High Availability:** Built-in redundancy with AWS infrastructure  
+
+---
+
+## 📘 Additional Resources
+- [AWS Transit Gateway Documentation](https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html)
+- [Transit Gateway Peering](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-peering.html)
+
+---
+
+🚀 **Done! Your cross-region AWS Transit Gateway is set up!**  
+Let me know if you need any help! 😊
+
